@@ -159,3 +159,71 @@ git checkout <commit-hash>
 # Reverts the files to the state of that specific commit
 ```
 ---
+
+### Chapter 03
+Step 1: Install uv (Python Tool Manager)
+Run the following command in your WSL (Ubuntu) terminal to install uv.
+
+  - Note: Do not run this in Windows PowerShell. Run it inside the Ubuntu terminal.
+  ```
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+After installation, you may need to close and reopen the terminal for the uv command to be recognized.
+
+Step 2: Install the llm Tool
+Use uv to install the llm command-line interface.
+```
+uv tool install llm
+```
+
+Step 3: Setup Google Gemini (Personal Account)
+1. Install the Gemini Plugin:
+```
+llm install llm-gemini
+```
+2. Get API Key: Visit Google AI Studio (use your personal Gmail, not student ID) and create a new API key.
+
+3. Set the Key:
+```
+llm keys set gemini
+# Paste your API key when prompted and press Enter
+```
+4. Test Gemini:
+```
+llm -m gemini-2.5-flash "Who are you?"
+```
+
+Step 4: Setup OpenAI via AI Pipe (Student Account)
+1. Get Token: Go to the Course Portal -> "Tools" or "Week 4" section -> Find AI Pipe. Login with your student ID and copy your Access Token.
+
+2. Set the Key:
+```
+llm keys set openai
+# Paste your AI Pipe Access Token when prompted
+```
+3. Configure the Proxy URL (.bashrc Setup):
+
+  - Get the Base URL from the AI Pipe instructions (usually found on the AI Pipe GitHub or Portal).
+
+  - Open your shell configuration file:
+  ```
+nano ~/.bashrc
+# OR if you are on Mac using Zsh:
+# nano ~/.zshrc
+```
+  - Scroll to the bottom of the file and add the following line:
+  ```
+export OPENAI_API_BASE="https://aipipe.rory.wo/v1" 
+# Note: Verify the exact URL from the course portal/GitHub as it may change.
+```
+  - Save and exit (Ctrl+O, Enter, Ctrl+X in nano).
+
+4. Apply Changes:
+```
+source ~/.bashrc
+# OR close and reopen the terminal
+```
+5. Test OpenAI:
+```
+llm -m gpt-4o-mini "Hello"
+```
