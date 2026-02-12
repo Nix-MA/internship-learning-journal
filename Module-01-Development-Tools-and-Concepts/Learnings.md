@@ -26,7 +26,7 @@
 
 ---
 
-### chaapter 03
+### Chapter 03
  - Linux File Paths: The mnt directory is the bridge between Linux and Windows drives. /mnt/c/ corresponds to the Windows C: drive.
 
  - Tool Isolation: uv is used instead of global pip installs to keep tools isolated and prevent dependency conflicts.
@@ -40,4 +40,17 @@
 
 
 - File Systems: In WSL, you should ideally work within the Linux file system (e.g., /home/username/) for better performance, though you can access Windows files from /mnt/c/
+
+---
+
+### Chapter 04
+- System Integrity: Mac users must move apps to the "Applications" folder to ensure proper permissions and updates.
+
+- Version Control: Never use the system Python for development. Always use a version manager like pyenv to avoid breaking OS tools.
+
+- Project Hygiene: uv simplifies Python projects by managing environments and dependencies in a single, fast tool, replacing manual pip and venv steps.
+
+- CLI Automation: Tools like gh (GitHub CLI) and llm allow complex tasks (creating repos, querying AI) to be scripted, which is the foundation for building autonomous agents.
+
+- Cost Efficiency: When using OpenAI via the course token, prefer efficient models like gpt-4o-mini or Google's gemini-flash to save credits and reduce latency.
 
