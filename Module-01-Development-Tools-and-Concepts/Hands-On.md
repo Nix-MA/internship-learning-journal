@@ -227,3 +227,83 @@ source ~/.bashrc
 ```
 llm -m gpt-4o-mini "Hello"
 ```
+
+# Chapter 04
+Step 1: Install Homebrew (Mac/Linux)
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+After installation, follow the on-screen instructions to run the echo commands that add Homebrew to your PATH.
+
+Step 2: Python Setup with pyenv
+1. Install pyenv:
+```
+brew install pyenv
+```
+2. Install Python Build Dependencies (Mac):
+```
+brew install openssl readline sqlite3 xz zlib
+```
+3. Install a specific Python version:
+```
+pyenv install 3.12.11
+```
+4. Set Global Version:
+```
+pyenv global 3.12.11
+```
+
+Step 3: fast Project Setup with uv
+1. Install uv:
+```
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+2. Initialize a Project:
+```
+mkdir my-project
+cd my-project
+uv init
+```
+3. Add a Dependency (e.g., Flask):
+```
+uv add flask
+```
+This automatically creates the virtual environment and installs Flask.
+
+Step 4: GitHub Automation with gh CLI
+1. Install GitHub CLI:
+```
+brew install gh
+```
+2. Login:
+```
+gh auth login
+# Select GitHub.com -> HTTPS -> Login with Browser
+```
+3. Create & Push a Repo (One Step): Inside your project folder:
+```
+git add .
+git commit -m "Initial commit"
+gh repo create my-new-repo --public --source=. --push
+```
+
+Step 5: LLM CLI Configuration
+1. Install LLM:
+```
+brew install llm
+```
+2. Install Gemini Plugin:
+```
+llm install llm-gemini
+```
+3. Set API Key:
+```
+llm keys set gemini
+# Paste key from aistudio.google.com
+```
+4. Run a Prompt:
+```
+llm -m gemini-2.0-flash "Explain quantum computing in one sentence"
+```
+---
+
