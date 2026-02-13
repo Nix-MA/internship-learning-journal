@@ -307,3 +307,73 @@ llm -m gemini-2.0-flash "Explain quantum computing in one sentence"
 ```
 ---
 
+# Chapter 05
+Step 1: Generate & Configure SSH Keys
+Run these commands in your terminal (WSL/Linux/Mac) to set up secure access to GitHub.
+
+1. Generate a new SSH key:
+```
+ssh-keygen -t ed25519 -C "your_email@example.com"
+# Press Enter to accept default file location and no passphrase for simplicity
+```
+2. Start the SSH Agent:
+```
+eval "$(ssh-agent -s)"
+```
+3. Add your key to the agent:
+```
+ssh-add ~/.ssh/id_ed25519
+```
+4. Copy the public key:
+```
+cat ~/.ssh/id_ed25519.pub
+# Copy the output starting with "ssh-ed25519..."
+```
+Go to GitHub.com -> Settings -> SSH and GPG keys -> New SSH key -> Paste the key.
+5. Test the connection:
+```
+ssh -T git@github.com
+# Type 'yes' if asked to continue. You should see a success message with your username.
+```
+Step 2: The Git Workflow
+Initialize a project and push it to GitHub.
+
+1. Clone a repository (if existing):
+```
+git clone git@github.com:username/repo-name.git
+```
+2. Or, initialize a new one:
+```
+git init
+git remote add origin git@github.com:username/repo-name.git
+```
+3. Commit and Push Changes:
+```
+git add .
+git commit -m "Initial commit"
+git push -u origin main
+```
+Step 3: Create a Simple FastAPI Server
+1. Install dependencies using uv:
+```
+uv init my-server
+cd my-server
+uv add fastapi
+```
+2. Create main.py:
+```
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+```
+3. Run the server:
+```
+uv run fastapi dev main.py
+```
+Open your browser to http://127.0.0.1:8000 to see the JSON response.
+---
+
