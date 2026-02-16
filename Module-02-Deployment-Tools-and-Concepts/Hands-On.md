@@ -172,3 +172,99 @@ ngrok http 8000
 ---
 
 ## Chapter 03
+Step 1: Setting up GitHub Code Spaces
+1. Create/Open a Repo: Go to a GitHub repository.
+
+2. Launch Code Space: Click the green "Code" button -> "Codespaces" tab -> "Create codespace on main".
+
+3. Configure Environment (Optional):
+
+- Add a .devcontainer/devcontainer.json file.
+
+- Define extensions (e.g., ms-python.python) and post-create commands (e.g., pip install -r requirements.txt).
+
+- Rebuild the container to apply changes.
+
+Step 2: Deploying to Hugging Face Spaces (Docker Method)
+1. Create Space:
+
+- Go to Hugging Face -> New Space.
+
+- Enter a name, select license, and choose Docker as the SDK.
+
+2. Clone Locally:
+```
+git clone https://huggingface.co/spaces/your-username/your-space-name
+cd your-space-name
+```
+3. Create Application Files:
+
+- app.py:
+```
+from fastapi import FastAPI
+app = FastAPI()
+@app.get("/")
+def read_root():
+    return {"message": "Hello from Hugging Face!"}
+```
+- Dockerfile:
+```
+FROM python:3.9
+WORKDIR /code
+COPY ./requirements.txt /code/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+COPY . .
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860"]
+```
+- requirements.txt:
+```
+fastapi
+uvicorn
+```
+4. Push to Deploy:
+```
+git add .
+git commit -m "Initial deploy"
+git push
+```
+Note: If prompted for password, use a Hugging Face Access Token with write permissions.
+
+Step 3: Creating a GitHub Action
+1. Create Workflow File:
+
+- Inside your repo, create .github/workflows/daily-task.yml.
+
+2. Define Workflow (Example):
+```
+name: Daily Data Fetch
+on:
+  schedule:
+    - cron: '0 12 * * *' # Runs daily at 12:00 UTC
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Run script
+        run: |
+          pip install requests
+          python fetch_data.py
+      - name: Commit results
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data.json
+          git commit -m "Update data" || exit 0
+          git push
+```
+3. Commit: Push this file to the repository. The action will run according to the schedule or can be triggered manually under the "Actions" tab.
+
+---
+
+# Chapter 04
