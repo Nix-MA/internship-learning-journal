@@ -268,3 +268,89 @@ jobs:
 ---
 
 # Chapter 04
+Step 1: Basic FastAPI Server Setup
+1. Create a directory and virtual environment:
+```
+mkdir fast-api-demo
+cd fast-api-demo
+python -m venv venv
+# Activate: source venv/bin/activate (Mac/Linux) or venv\Scripts\activate (Windows)
+```
+2.  Install dependencies:
+```
+pip install fastapi uvicorn python-multipart
+```
+3. Create app.py:
+```
+from fastapi import FastAPI
+import uvicorn
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"message": "Hello from FastAPI"}
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+```
+4. Run the server:
+```
+python app.py
+# Access at http://localhost:8000
+# Docs at http://localhost:8000/docs
+```
+
+Step 2: Implementing Pydantic Models
+Add data validation for a POST request.
+```
+from pydantic import BaseModel, EmailStr
+
+class User(BaseModel):
+    username: str
+    email: EmailStr
+    age: int
+
+@app.post("/users/")
+def create_user(user: User):
+    return {"message": "User created", "data": user}
+```
+Note: Requires pip install pydantic[email].
+
+Step 3: Dockerizing for Hugging Face
+Create a Dockerfile in the same directory.
+```
+# Use official Python image
+FROM python:3.9
+
+# Set working directory
+WORKDIR /code
+
+# Copy requirements and install
+COPY ./requirements.txt /code/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+# Copy app code
+COPY . .
+
+# Run the application on port 7860 (Hugging Face default)
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860"]
+```
+
+Step 4: Deploying to Hugging Face
+1. Go to Hugging Face Spaces -> Create new Space.
+
+2. Name it, select Docker as the SDK, and choose Public.
+
+3. Upload app.py, requirements.txt, and Dockerfile via the "Files" tab.
+
+4. Add Secrets: Go to Settings -> Variables and secrets. Add your SECRET_KEY (e.g., value: 92).
+
+5. Update Code to Use Secret:
+```
+import os
+secret_key = os.getenv("SECRET_KEY")
+```
+---
+
+
