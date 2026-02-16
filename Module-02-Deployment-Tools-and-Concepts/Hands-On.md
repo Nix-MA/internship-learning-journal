@@ -84,3 +84,91 @@ Now, inside Jupyter, you can reach Ollama at http://ollama:11434 instead of loca
 ---
 
 ## Chapter 02
+
+Step 1: Create a Fast API App
+1. Initialize project with uv:
+```
+mkdir my-fastapi-app
+cd my-fastapi-app
+uv init
+uv add fastapi
+```
+2. Create app.py:
+```
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+
+@app.get("/items/{item_id}")
+def read_item(item_id: int):
+    return {"item_id": item_id}
+```
+3. Run locally:
+```
+uv run fastapi dev app.py
+```
+- Access at http://localhost:8000.
+
+- Test APIs at http://localhost:8000/docs.
+
+Step 2: Deploy to Vercel (CLI Method)
+1. Install Vercel CLI:
+```
+npm install -g vercel
+```
+2. Login:
+```
+vercel login
+```
+3. Create vercel.json:
+```
+{
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "app.py"
+    }
+  ]
+}
+```
+4. Deploy:
+```
+vercel
+# Follow prompts: Set scope (username), link to existing project (N), project name (my-app), directory (./).
+```
+
+Step 3: Managing Environment Variables
+1. Local: Create a .env file.
+```
+MY_SECRET_KEY=12345
+```
+2. Code Access:
+```
+import os
+from dotenv import load_dotenv
+load_dotenv()
+secret = os.getenv("MY_SECRET_KEY")
+```
+3. Vercel: Go to Vercel Dashboard -> Project Settings -> Environment Variables -> Add MY_SECRET_KEY and value 12345.
+
+Step 4: Expose Localhost with Ngrok
+1. Install & Auth: Download Ngrok, sign up, and run the auth command provided on your dashboard.
+
+2. Tunnel:
+```
+ngrok http 8000
+```
+3. Share: Copy the Forwarding URL (https) and share it.
+---
+
+## Chapter 03
