@@ -27,3 +27,10 @@
 ---
 
 # Chapter 03
+- Cloud Development: Code Spaces decouple the development environment from local hardware, ensuring consistency across teams and simplifying onboarding.
+
+- Containerized Deployment: Hugging Face Spaces (via Docker) provides a robust platform for deploying ML apps. Using Dockerfiles gives you full control over the runtime environment compared to pre-set SDKs.
+
+- Automation is Key: GitHub Actions automate repetitive tasks (testing, deployment, data fetching), reducing human error and ensuring that the "main" branch is always tested and deployable.
+
+- Secrets Management: Never hardcode secrets (API keys). Use Environment Variables (in Vercel/Hugging Face settings) or GitHub Secrets (for Actions) to manage sensitive data securely.
