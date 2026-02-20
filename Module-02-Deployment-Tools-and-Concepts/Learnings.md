@@ -34,3 +34,16 @@
 - Automation is Key: GitHub Actions automate repetitive tasks (testing, deployment, data fetching), reducing human error and ensuring that the "main" branch is always tested and deployable.
 
 - Secrets Management: Never hardcode secrets (API keys). Use Environment Variables (in Vercel/Hugging Face settings) or GitHub Secrets (for Actions) to manage sensitive data securely.
+
+---
+
+# Chapter 04
+- Asynchronous Architecture: The project requires an async workflow. You must respond immediately (200 OK) to the trigger request, then perform the heavy lifting (generating code, pushing to Git) in the background before sending a final callback request.
+
+- Pydantic Power: Pydantic is essential for robust APIs. It handles data validation automatically, ensuring that your application doesn't crash due to malformed input (e.g., missing fields or wrong data types).
+
+- Security Best Practices: Never hardcode API keys or secrets in your source code. Use Environment Variables locally (via .env files) and Repository Secrets when deploying to platforms like Hugging Face or GitHub.
+
+- Automated Testing: Writing simple shell scripts or Python scripts to hit your API endpoints is significantly faster and more reliable than manually testing with Postman every time you make a change.
+
+- Deployment Ports: When deploying via Docker, ensure your CMD command exposes the correct port expected by the platform (e.g., port 7860 for Hugging Face Spaces).
