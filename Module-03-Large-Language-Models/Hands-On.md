@@ -165,5 +165,32 @@ print("Content:", results[0]["text"])
 
 ---
 
+# Chapter 03
+Note: As this was a Q&A and troubleshooting session, there was no live coding or step-by-step technical demonstration. The following steps summarize the solutions provided verbally for common student issues.
 
+Troubleshooting Step: Configuring AI Pipe/Proxy for LLMs
+If you are receiving "API Key Expired" or quota errors when trying to use OpenAI models for your assignments, you must route your requests through the course proxy.
+
+1. Get your AI Pipe Token: Log in to the AI Pipe portal using your student credentials to retrieve your specific access token.
+
+2. Set Environment Variables: Do not put the token directly in your code. Set it in your .env file or system environment.
+```
+# Set the token as your API key
+export OPENAI_API_KEY="your_ai_pipe_token_here"
+```
+3. Change the Base URL: You must redirect the API calls from OpenAI's default servers to the course proxy.
+```
+# Update the base URL in your environment or code configuration
+export OPENAI_BASE_URL="https://aipipe.your-course-url.com/v1"
+```
+Troubleshooting Step: Enabling Missing Checkboxes in GA
+If you encounter a Graded Assignment question (like Week 3, Question 3) where the submission checkbox is hidden or disabled:
+
+1. Open Chrome Developer Tools (Right-click -> Inspect, or F12).
+
+2. Use the Element Selector tool to click on the area where the checkbox should be.
+
+3. In the HTML DOM tree, locate the <input type="checkbox"> element.
+
+4. Remove the disabled or hidden attribute from the HTML tag to make the checkbox interactive. (This tests the web scraping and DevTools concepts taught in the course).
 
