@@ -1,0 +1,15 @@
+### Week 03, Session 03: Troubleshooting and Course Q&A
+
+---
+
+# 1: API Keys & Proxy Issues
+The session begins as an open forum for students to troubleshoot issues they've encountered during the week, primarily focusing on Graded Assignments (GA). Several students reported errors related to expired or invalid OpenAI API keys. The instructor clarifies that for this course, students must use the provided AI Pipe or AI Proxy instead of direct OpenAI keys. This ensures usage remains within the free tier provided to students. Students are directed to replace both the token and the base URL in their environment variables to properly route their LLM calls through the course's proxy servers.
+
+# 2: Project 1 Specifications & Prerequisites
+Discussion shifts to the upcoming Project 1. There is confusion regarding an email stating that a score of "2/2" is required. The instructor clarifies that this "2/2" score is merely a prerequisite check to ensure the student's Virtual TA application is active and reachable by the grading server. It does not reflect the final project grade. The actual grade will be determined by how well the deployed LLM application answers a hidden set of 10 evaluation questions based on course content. The deadline for Project 1 is confirmed as June 14th.
+
+# 3: Problem-Solving Methodology & Course Pacing
+Several students express feeling overwhelmed by the sheer volume of tools introduced (WSL, Docker, Vercel, Ngrok, FastAPI) in the first three weeks. The instructor explains the course's design philosophy: the first few weeks are intentionally "front-loaded" with deployment and development tools. This simulates a real-world software engineering environment where developers must quickly adapt to new tools to deliver a product. The later weeks (Data Sourcing, Analysis) will be less tool-heavy. Students are encouraged to use LLMs (like ChatGPT), peer collaboration, and the Discourse forum to overcome technical hurdles rather than expecting to master every tool perfectly.
+
+$ 4: Career Application (How to use this course on a Resume)
+A student asks how to position the skills learned in this course for job interviews. The instructor explains that the course teaches end-to-end application building and deployment. The best way to showcase this is by contributing to open-source projects or building a personal portfolio website (e.g., hosted on GitHub Pages). For example, deploying the Project 1 "Virtual TA" (an LLM application that answers questions based on a specific context) serves as a strong, tangible project for a resume, demonstrating skills in Git, APIs, LLMs, and cloud deployment.
