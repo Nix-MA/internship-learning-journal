@@ -1,0 +1,20 @@
+Week 3, Session 2: Embeddings, Multimodal Embeddings, and RAG
+
+---
+
+# 1: Understanding Embeddings
+The session begins with an introduction to embeddings. Embeddings are numerical representations of data (text, images, audio) in a high-dimensional vector space. The primary use case of embeddings is identifying the similarity between different objects.
+The instructor demonstrates how to generate embeddings using OpenAI's embedding endpoints (specifically text-embedding-3-small) rather than running a local model like sentence-transformers. By fetching embeddings for the words "apple", "orange", and "lightning", the concept of Cosine Similarity is explored. Cosine similarity calculates the distance (dot product normalized to a 0-1 scale) between two vectors. Predictably, the similarity score between "apple" and "orange" is much higher than "apple" and "lightning" because they share semantic properties (both being fruits).
+
+# 2: Multimodal Embeddings
+The session transitions into multimodal embeddings, which map different types of data—like text and images—into the same continuous vector space. This allows you to directly compare an image with a string of text.
+Using the Nomic AI API, the instructor fetches embeddings for an image of a cat, an image of a cardboard box, and their corresponding text descriptions ("cat", "cardboard box"). When the similarity is calculated, the vector for the cat image shows a high similarity score to the text string "cat", but a very low similarity to the text string "box". This technology is the foundation for advanced search engines and intelligent chat applications that can process both image uploads and text prompts simultaneously.
+
+# 3: Retrieval-Augmented Generation (RAG) & Chunking
+The final segment focuses on Retrieval-Augmented Generation (RAG), a technique used to give LLMs access to a specific "knowledge base" outside their training data. The instructor uses a repository of TypeScript documentation as the knowledge base.
+
+- Chunking: Because LLMs and embedding models have strict token limits (e.g., 4096 or 8192 tokens per request), a massive documentation folder cannot be processed at once. The text must be broken down or "chunked" into smaller segments.
+
+- Vector Database Generation: A Python script reads the chunked Markdown files, calls the embedding API for each chunk, and stores the resulting vectors, original text, and source IDs into a JSON file (acting as a basic Vector Database).
+
+- Querying: When a user asks a question (e.g., "What is the purpose of TypeScript?"), the application converts the question into an embedding. It then runs a similarity search against all the chunks in the database, sorts the results to find the top matching documents, and uses those specific text snippets to generate an accurate answer.
