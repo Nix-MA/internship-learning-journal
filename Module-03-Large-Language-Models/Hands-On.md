@@ -194,3 +194,127 @@ If you encounter a Graded Assignment question (like Week 3, Question 3) where th
 
 4. Remove the disabled or hidden attribute from the HTML tag to make the checkbox interactive. (This tests the web scraping and DevTools concepts taught in the course).
 
+---
+
+# Chapter 04
+Step 1: Environment Setup (API Key & Proxy)
+Set up your API key in your terminal profile so you don't hardcode it into scripts.
+
+1. Open your bash configuration:
+```
+nano ~/.bashrc
+```
+2. Add your AI Pipe (or OpenAI) key at the bottom:
+```
+export OPENAI_API_KEY="your_ai_pipe_token_here"
+```
+3. Save, exit, and reload the terminal (or run source ~/.bashrc).
+
+Step 2: Build a Chatbot with Memory (httpx)
+Create a simple CLI chatbot that remembers context.
+```
+import os
+import httpx
+
+# Configuration
+API_KEY = os.getenv("OPENAI_API_KEY")
+# Using the course proxy URL instead of api.openai.com
+URL = "https://aipipe.rory.wo/v1/chat/completions" 
+
+headers = {
+    "Authorization": f"Bearer {API_KEY}",
+    "Content-Type": "application/json"
+}
+
+# Initialize message history with a System Prompt
+messages = [
+    {"role": "developer", "content": "Answer concisely in less than 10 words."}
+]
+
+def get_ai_response(msg_list):
+    payload = {
+        "model": "gpt-4o-mini", # Cost-effective model
+        "messages": msg_list
+    }
+    # Using timeout=15 as LLMs can take time to respond
+    response = httpx.post(URL, headers=headers, json=payload, timeout=15.0)
+    data = response.json()
+    # Parse the response dictionary
+    return data["choices"][0]["message"]["content"]
+
+# Chat Loop
+while True:
+    user_input = input("You: ")
+    if user_input.lower() == "exit":
+        break
+    
+    # Add user query to history
+    messages.append({"role": "user", "content": user_input})
+    
+    # Get and print AI response
+    ai_reply = get_ai_response(messages)
+    print(f"AI: {ai_reply}\n")
+    
+    # Add AI reply to history for the next turn
+    messages.append({"role": "assistant", "content": ai_reply})
+```
+Step 3: Base64 Image Encoding
+Convert an image to Base64 to send it to the API.
+```
+import base64
+
+def encode_image(image_path):
+    with open(image_path, "rb") as image_file:
+        binary_data = image_file.read()
+        # Encode to base64 string
+        base64_encoded = base64.b64encode(binary_data).decode('utf-8')
+    return base64_encoded
+
+base64_image = encode_image("product.png")
+image_uri = f"data:image/png;base64,{base64_image}"
+
+# Adding image to the API message payload:
+messages = [{
+    "role": "user",
+    "content": [
+        {"type": "text", "text": "Extract details from this image."},
+        {"type": "image_url", "image_url": {"url": image_uri}}
+    ]
+}]
+```
+Step 4: Forcing Structured Output (Function Calling)
+Pass a tools parameter to the API request to force JSON output based on an image.
+```
+# Define the expected JSON structure
+tools = [{
+    "type": "function",
+    "function": {
+        "name": "extract_product_details",
+        "description": "Extract manufacturing and expiry dates from the product image.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {"type": "string", "description": "Name of the product"},
+                "mfd_year": {"type": "number", "description": "Manufacturing year"},
+                "exp_year": {"type": "number", "description": "Expiry year"}
+            },
+            "required": ["name", "mfd_year", "exp_year"]
+        }
+    }
+}]
+
+payload = {
+    "model": "gpt-4o-mini",
+    "messages": messages, # Messages array from Step 3 containing the image
+    "tools": tools,
+    "tool_choice": "required" # Forces the model to use the tool
+}
+
+response = httpx.post(URL, headers=headers, json=payload, timeout=20.0)
+data = response.json()
+
+# The structured output is found deep in the response JSON:
+tool_call_args = data["choices"][0]["message"]["tool_calls"][0]["function"]["arguments"]
+print(tool_call_args) 
+# Output: {"name": "Medicine", "mfd_year": 2021, "exp_year": 2024}
+```
