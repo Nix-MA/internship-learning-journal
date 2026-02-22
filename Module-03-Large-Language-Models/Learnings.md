@@ -35,3 +35,15 @@
 
 - Resume Building: Building and deploying an end-to-end application (like an LLM chatbot hosted on Hugging Face or Vercel with a public GitHub repo) is one of the most effective ways to demonstrate practical software engineering and data science skills to employers.
 
+---
+
+# Chapter 04
+- Statelessness of LLMs: The API itself has no memory. To create conversational bots, you must manually manage an array of messages and send the entire chat history with every single request.
+
+- Vector Math for Similarity: To find how similar two text strings or images are, you use embedding models to convert them to vectors. You then compare them using Cosine Similarity (higher is better) or Euclidean Distance (lower is better).
+
+- Multimodal Compatibility: For cross-modal comparisons (e.g., comparing an image to a text string), you must use a specific multimodal embedding model (like Jina AI) so that both outputs share the exact same dimensional space.
+
+- Function Calling for Extraction: When you need reliable data extraction (like pulling dates from an invoice to put in a database), do not rely on standard text prompting. Define a strict JSON schema using the tools and tool_choice parameters to guarantee structured, parseable output.
+
+- Base64 Necessity: When dealing with standard REST APIs that accept JSON, you cannot send raw binary image files. You must encode them into Base64 strings first.
