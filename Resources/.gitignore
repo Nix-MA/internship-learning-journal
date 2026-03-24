@@ -1,0 +1,53 @@
+# ============================================
+# 🛠️ Python & Data Science .gitignore
+# ============================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[codz]
+*$py.class
+
+# Environments (Very Important: Never upload your venv)
+.venv
+venv/
+env/
+ENV/
+.env
+.envrc
+
+# Jupyter Notebook & Interactive Tools
+.ipynb_checkpoints
+.marimo/
+__marimo__/
+marimo/_static/
+marimo/_lsp/
+
+# Data & Scraping Cache
+# (Ignore local data files if they are very large)
+cache2/
+*.log
+*.log.gz
+.scrapy/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# IDE Settings (VS Code / PyCharm / Cursor)
+.vscode/
+.idea/
+.cursorignore
+.cursorindexingignore
+
+# Distribution / Packaging
+dist/
+build/
+*.egg-info/
+*.spec
+
+# Unit test / coverage reports
+.pytest_cache/
+.tox/
+.coverage
+htmlcov/
+
